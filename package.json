@@ -1,0 +1,8 @@
+{
+  "name": "@leoncvlt/ar-button",
+  "version": "0.1.0",
+  "description": "A web component to easily display 3D models in native AR across browsers and mobile devices",
+  "main": "index.js",
+  "author": "Leonardo Cavaletti <impeto.blu@gmail.com>",
+  "license": "ISC"
+}

@@ -1,0 +1,36 @@
+ar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #000000;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 100px;
+}
+
+ar-button:before {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a4a4a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3'%3E%3C/path%3E%3C/svg%3E");
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+}
+
+ar-button:hover {
+  background-color: #f5f5f5;
+}
+
+ar-button:active {
+  background-color: #eeeeee;
+}
+
+ar-button > a,
+ar-button > a:hover {
+  color: inherit;
+  text-decoration: inherit;
+}

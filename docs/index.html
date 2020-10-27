@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;ar-button&gt;</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css" />
+    <link rel="stylesheet" type="text/css" href="../styles.css" />
+    <style>
+      td:first-child {
+        width: 33%;
+        font-family: monospace;
+      }
+      .demo {
+        position: relative;
+      }
+      .demo > ar-button {
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+      }
+      .demo > img {
+        border-radius: 0.5rem;
+      }
+
+      ar-button:not([ar="unsupported"]) .unsupported {
+        display: none;
+      }
+      ar-button[ar="unsupported"] {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      ar-button[ar="unsupported"] .prompt {
+        display: none;
+      }
+      body {
+        margin-bottom: 10rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;ar-button&gt;</h1>
+    <h3 style="margin-top: 0">
+      Easily display 3D models in native AR across browsers and mobile devices
+    </h3>
+    <p>
+      A one-size-fits-all web-component to display a 3D model in augmented reality using the native
+      capabilities of the mobile device -
+      <a
+        href="https://developer.apple.com/documentation/arkit/previewing_a_model_with_ar_quick_look"
+      >
+        Quick Look</a
+      >
+      on iOS and
+      <a href="https://developers.google.com/ar/develop/java/scene-viewer">Scene Viewer</a> on
+      Android. Heavily inspired by <a href="https://modelviewer.dev/">model-viewer</a>.
+    </p>
+
+    <h2>Installation / Usage</h2>
+    <hr />
+    <p>Install the npm package...</p>
+    <pre><code>npm @leoncvlt/ar-button</code></pre>
+    <p>...and import the library in your project (and the default button styles if you wish)</p>
+    <pre><code>import "@leoncvlt/ar-button"<br>import "@leoncvlt/ar-button/styles.css"</code></pre>
+    <p>Or import from a CDN, if that's your cup of tea</p>
+    <pre><code>&lt;script type="module" src="https://unpkg.com/@leoncvlt/..."&gt;&lt;/script&gt;</code></pre>
+    <p>Use it like a normal html component</p>
+    <pre><code>&lt;ar-button&gt;
+    src="https://github.com/google/model-viewer/raw/master/packages/shared-assets/models/Astronaut.glb"
+    ios-src="https://github.com/google/model-viewer/raw/master/packages/shared-assets/models/Astronaut.usdz"
+    link="https://www.nasa.gov/"
+    title="A 3D model of an astronaut"&gt;
+      See in Augmented Reality 
+&lt;/ar-button&gt;</code></pre>
+
+    <h2>Demo</h2>
+    <hr />
+    <p>
+      Navigate to this page on a supported mobile device and click the "See in Augmented Reality"
+      button on the bottom right of the image to see a friendly, blocky astronaut in your space.
+    </p>
+    <div class="demo">
+      <img src="https://source.unsplash.com/kvHhSroTNPY/960x540" />
+      <ar-button
+        id="ar-button"
+        src="https://github.com/google/model-viewer/raw/master/packages/shared-assets/models/Astronaut.glb"
+        ios-src="https://github.com/google/model-viewer/raw/master/packages/shared-assets/models/Astronaut.usdz"
+        link="https://www.nasa.gov/"
+        title="A 3D model of an astronaut"
+        checkout-title="A 3D model of an astronaut"
+        checkout-subtitle="Doesn't feel like a giant. Probably feels very"
+        price="very small."
+        call-to-action="Go to space"
+        show-if-unsupported
+        no-scale
+      >
+        <span class="prompt">See in <b>Augmented Reality</b></span>
+        <span class="unsupported">Your device does not support AR</span>
+      </ar-button>
+    </div>
+
+    <script src="../index.js"></script>
+    <script>
+      const arButton = document.querySelector("ar-button");
+      arButton.addEventListener("quick-look-button-tapped", () => {
+        window.location.href = "https://https://www.nasa.gov/";
+      });
+    </script>
+
+    <h2>Attributes</h2>
+    <p>
+      Note that some attributes only have effect when using Scene Viewer on <code>android</code>,
+      while others only when using Quick Look on <code>ios</code>
+    </p>
+    <hr />
+    <table>
+      <tr>
+        <td>src <code>android</code></td>
+        <td>
+          The URL to the 3D model. This parameter is required for ar-button to work on android
+          devices. Only glTF/GLB models are supported.
+        </td>
+      </tr>
+      <tr>
+        <td>link <code>android</code></td>
+        <td>
+          A URL for an external webpage. If present, a button will be displayed in the scene viewer
+          UI that intents to this URL when clicked.
+        </td>
+      </tr>
+      <tr>
+        <td>title <code>android</code></td>
+        <td>
+          If present, display this text as a title in the scene viewer UI. The name will be
+          truncated with ellipses after 60 characters.
+        </td>
+      </tr>
+      <tr>
+        <td>ios-src <code>ios</code></td>
+        <td>
+          The URL to the 3D model. This parameter is required for ar-button to work on iOS devices.
+          Only USDZ models are supported.
+        </td>
+      </tr>
+      <tr>
+        <td>applepay-button-type <code>ios</code></td>
+        <td>
+          If present, displays a "Pay" button with the Apple Pay branding in the quick look default
+          UI. Has to be one of the available button options (e.g. <code>plain</code>,
+          <code>check-out</code>, etc). For more information, see
+          <a
+            href="https://developer.apple.com/documentation/arkit/adding_an_apple_pay_button_or_a_custom_action_in_ar_quick_look"
+            >Apple's documentation</a
+          >.
+        </td>
+      </tr>
+      <tr>
+        <td>checkout-title <code>ios</code></td>
+        <td>
+          If present, display this text as a title in the quick look default UI. Only works if
+          supplied alongside
+          <code>checkout-subtitle</code>, <code>price</code>, and either
+          <code>applepay-button-type</code> or <code>call-to-action</code>.
+        </td>
+      </tr>
+      <tr>
+        <td>checkout-subtitle <code>ios</code></td>
+        <td>
+          If present, display this text as a subtitle in the quick look default UI. Only works
+          supplied alongside
+          <code>checkout-title</code>, <code>price</code>, and either
+          <code>applepay-button-type</code> or <code>call-to-action</code>.
+        </td>
+      </tr>
+      <tr>
+        <td>price <code>ios</code></td>
+        <td>
+          If present, display this text nexy to the subtitle (automatically inserts a comma) in the
+          quick look default UI. Doesn't actually need to be a monetary value, but don't tell
+          anyone. Only works when supplied alongside
+          <code>checkout-title</code>, <code>checkout-subtitle</code>, and either
+          <code>applepay-button-type</code> or <code>call-to-action</code>.
+        </td>
+      </tr>
+      <tr>
+        <td>call-to-action <code>ios</code></td>
+        <td>
+          If present, display this text as a button the quick look default UI. Only works when
+          supplied alongside
+          <code>checkout-title</code>, <code>checkout-subtitle</code>, <code>price</code> and
+          <code>applepay-button-type</code> is not defined.
+        </td>
+      </tr>
+      <tr>
+        <td>custom-banner <code>ios</code></td>
+        <td>
+          An absolute URL to an html file. If present, the quick look UI will be rendered from this
+          html file instead. Has to be served over https. For more information, see
+          <a
+            href="https://developer.apple.com/documentation/arkit/adding_an_apple_pay_button_or_a_custom_action_in_ar_quick_look"
+            >Apple's documentation</a
+          >.
+        </td>
+      </tr>
+      <tr>
+        <td>custom-height <code>ios</code></td>
+        <td>
+          If <code>custom-banner</code> is present, sets its height. Set this to <code>small</code>,
+          <code>medium</code>, or <code>large</code> to set the banner height to 81, 121, or 161
+          points, respectively.
+        </td>
+      </tr>
+      <tr>
+        <td>show-if-unsupported</td>
+        <td>
+          If present, the button will still be displayed on platforms where AR is not supported
+          (e.g. web) - if not, it will be hidden.
+        </td>
+      </tr>
+      <tr>
+        <td>no-scale</td>
+        <td>
+          If present, users will not be able to scale the model in AR - it will still be possible to
+          move and rotate it.
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>fallback-url</td>
+        <td>
+          This is the URL that clicking the button navigates to when on platforms where AR is not
+          supported and <code>show-if-unsupported</code> is enabled; or if on an
+          <code>android</code> device without Google Play Services for AR installed.
+        </td>
+      </tr>
+      <tr>
+        <td>ar</td>
+        <td>
+          This attribute is set automatically once the ar-button is initialized to either
+          <code>scene-viewer</code>, <code>quick-look</code> or <code>unsupported</code>. Can be
+          useful for styling purposes.
+        </td>
+      </tr>
+    </table>
+
+    <h2>Events</h2>
+    <hr />
+    <table>
+      <tr>
+        <td>initialized</td>
+        <td>
+          Fired when the button has been initialized and the right AR backend for the device has
+          been detected. The <code>detail</code> parameter of the event will return either
+          <code>scene-viewer</code>, <code>quick-look</code> or <code>unsupported</code>
+        </td>
+      </tr>
+      <tr>
+        <td>quick-look-button-tapped <code>ios</code></td>
+        <td>
+          Fired when the Apple Pay button or a custom call to action button has been tapped on iOS'
+          Quick Look.
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
