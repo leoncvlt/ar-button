@@ -1,3 +1,5 @@
+// constants to check for various platforms / AR subsytems support
+// @see https://github.com/google/model-viewer/blob/master/packages/model-viewer/src/features/ar.ts
 const IS_ANDROID = /android/i.test(navigator.userAgent);
 const IS_IOS =
   (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ||
@@ -15,13 +17,16 @@ const SUPPORTS_QUICKLOOK = (() => {
   return anchor.relList && anchor.relList.supports && anchor.relList.supports("ar");
 })();
 
-const activateAR = (href, button) => {
+const activateAR = (href, button, isQuickLook) => {
   const anchor = document.createElement("a");
-  anchor.appendChild(document.createElement("img"));
-  anchor.rel = "ar";
+  if (isQuickLook) {
+    // quick look needs a <img> child to go directly to AR view
+    anchor.appendChild(document.createElement("img"));
+    anchor.rel = "ar";
+  }
   anchor.setAttribute("href", href);
   anchor.click();
-  if (button) {
+  if (button && isQuickLook) {
     anchor.addEventListener(
       "message",
       (event) => {
@@ -39,7 +44,6 @@ const initializeArButton = (button) => {
   if (button.getAttribute("ar") != null) {
     return;
   }
-  button.setAttribute("ar", "uninitialized");
 
   if ((IS_IOS_CHROME || IS_IOS_SAFARI) && SUPPORTS_QUICKLOOK) {
     // system supports AR via quick look (on ios this takes precedence on scene viewer)
@@ -88,7 +92,7 @@ const initializeArButton = (button) => {
         href += `&allowsContentScaling=0`;
       }
 
-      activateAR(href, button);
+      activateAR(href, button, true);
     });
   } else if (SUPPORTS_SCENEVIEWER) {
     // system supports AR via scene viewer
@@ -144,7 +148,7 @@ const initializeArButton = (button) => {
   }
 };
 
-// go through all ar-button tags on the page and initialize their logic
+// go through all ar-button tags on the page and initialize them
 const buttons = document.querySelectorAll("ar-button");
 for (let i = 0; i < buttons.length; i++) {
   const button = buttons.item(i);
