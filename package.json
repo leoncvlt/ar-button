@@ -1,8 +1,22 @@
 {
   "name": "@leoncvlt/ar-button",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A web component to easily display 3D models in native AR across browsers and mobile devices",
+  "keywords": [
+    "ar",
+    "augmented reality",
+    "gltf",
+    "glb",
+    "usdz",
+    "quick look",
+    "scene viewer"
+  ],
+  "homepage": "https://github.com/leoncvlt/ar-button",
   "main": "index.js",
-  "author": "Leonardo Cavaletti <impeto.blu@gmail.com>",
-  "license": "ISC"
+  "author": "Leonardo Cavaletti <impeto.blu@gmail.com> (https://github.com/leoncvlt)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leoncvlt/ar-button"
+  }
 }
