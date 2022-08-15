@@ -162,17 +162,20 @@ export const setupButton = (button) => {
       const customHeight = button.getAttribute("custom-height");
       const noScale = button.getAttribute("no-scale");
 
-      activateAR({
-        iosSrc,
-        applePayButtonType,
-        checkoutTitle,
-        checkoutSubtitle,
-        price,
-        callToAction,
-        customBanner,
-        customHeight,
-        noScale,
-      });
+      activateAR(
+        {
+          iosSrc,
+          applePayButtonType,
+          checkoutTitle,
+          checkoutSubtitle,
+          price,
+          callToAction,
+          customBanner,
+          customHeight,
+          noScale,
+        },
+        button
+      );
     });
   } else if (compat.IS_SCENEVIEWER_CANDIDATE) {
     // system supports AR via scene viewer
