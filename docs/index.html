@@ -72,6 +72,19 @@
     title="A 3D model of an astronaut"&gt;
       See in Augmented Reality 
 &lt;/ar-button&gt;</code></pre>
+    <p>
+      Alternatively, you can also activate AR programmatically without using the
+      <code>ar-button</code>:
+    </p>
+    <pre><code>import { activateAR } from "@leoncvlt/ar-button";
+
+// trigger on an user interaction, like a click
+activateAR({
+  src: "https://github.com/leoncvlt/ar-button/raw/master/assets/Astronaut.glb"
+  ios-src: "https://github.com/leoncvlt/ar-button/raw/master/assets/Astronaut.usdz"
+  link: "https://www.nasa.gov/"
+  title: "A 3D model of an astronaut
+})</code></pre>
 
     <h2>Demo</h2>
     <hr />
@@ -223,7 +236,6 @@
           move and rotate it.
         </td>
       </tr>
-      <tr></tr>
       <tr>
         <td>fallback-url</td>
         <td>
@@ -262,7 +274,10 @@
       </tr>
     </table>
 
-    <a href="https://github.com/leoncvlt/ar-button" class="github-corner" aria-label="View source on GitHub"
+    <a
+      href="https://github.com/leoncvlt/ar-button"
+      class="github-corner"
+      aria-label="View source on GitHub"
       ><svg
         width="80"
         height="80"
