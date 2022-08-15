@@ -17,7 +17,6 @@ export const compat = {
     return check;
   })(),
 
-  IS_CHROMEOS: /\bCrOS\b/.test(navigator.userAgent),
   IS_ANDROID: /android/i.test(navigator.userAgent),
 
   // Prior to iOS 13, detecting iOS Safari was relatively straight-forward.
@@ -37,19 +36,15 @@ export const compat = {
 
   IS_AR_QUICKLOOK_CANDIDATE: (() => {
     const tempAnchor = document.createElement("a");
-
     return Boolean(
       tempAnchor.relList && tempAnchor.relList.supports && tempAnchor.relList.supports("ar")
     );
   })(),
 
-  // @see https://developer.chrome.com/multidevice/user-agent
-  IS_SAFARI: /Safari\//.test(navigator.userAgent),
-  IS_FIREFOX: /firefox/i.test(navigator.userAgent),
-  IS_OCULUS: /OculusBrowser/.test(navigator.userAgent),
-  IS_IOS_CHROME: IS_IOS && /CriOS\//.test(navigator.userAgent),
-  IS_IOS_SAFARI: IS_IOS && IS_SAFARI,
-  IS_SCENEVIEWER_CANDIDATE: IS_ANDROID && !IS_FIREFOX && !IS_OCULUS,
+  IS_SCENEVIEWER_CANDIDATE:
+    /android/i.test(navigator.userAgent) &&
+    !/firefox/i.test(navigator.userAgent) &&
+    !/OculusBrowser/.test(navigator.userAgent),
 };
 
 export const activateAR = (props, listener) => {
@@ -147,7 +142,7 @@ export const setupButton = (button) => {
     return;
   }
 
-  if ((IS_IOS_CHROME || IS_IOS_SAFARI) && compat.IS_AR_QUICKLOOK_CANDIDATE) {
+  if (compat.IS_AR_QUICKLOOK_CANDIDATE) {
     // system supports AR via quick look (on ios this takes precedence on scene viewer)
     button.setAttribute("ar", "quick-look");
     button.dispatchEvent(new CustomEvent("initialized", { detail: "quick-look" }));
@@ -205,7 +200,7 @@ export const setupButton = (button) => {
       button.addEventListener("click", () => {
         const fallbackUrl = button.getAttribute("fallback-url");
         if (fallbackUrl) {
-          activateAR({fallbackUrl: encodeURIComponent(fallbackUrl)});
+          activateAR({ fallbackUrl: encodeURIComponent(fallbackUrl) });
         }
       });
     } else {
