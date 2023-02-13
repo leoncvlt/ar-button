@@ -37,7 +37,9 @@ export const compat = {
   IS_AR_QUICKLOOK_CANDIDATE: (() => {
     const tempAnchor = document.createElement("a");
     return Boolean(
-      tempAnchor.relList && tempAnchor.relList.supports && tempAnchor.relList.supports("ar")
+      tempAnchor.relList &&
+        tempAnchor.relList.supports &&
+        tempAnchor.relList.supports("ar")
     );
   })(),
 
@@ -62,7 +64,7 @@ export const activateAR = (props, listener) => {
       "message",
       (event) => {
         if (event.data == "_apple_ar_quicklook_button_tapped") {
-          button.dispatchEvent(new CustomEvent("quick-look-button-tapped"));
+          listener.dispatchEvent(new CustomEvent("quick-look-button-tapped"));
         }
       },
       false
@@ -145,7 +147,9 @@ export const setupButton = (button) => {
   if (compat.IS_AR_QUICKLOOK_CANDIDATE) {
     // system supports AR via quick look (on ios this takes precedence on scene viewer)
     button.setAttribute("ar", "quick-look");
-    button.dispatchEvent(new CustomEvent("initialized", { detail: "quick-look" }));
+    button.dispatchEvent(
+      new CustomEvent("initialized", { detail: "quick-look" })
+    );
     button.addEventListener("click", () => {
       const iosSrc = button.getAttribute("ios-src");
       if (!iosSrc) {
@@ -180,7 +184,9 @@ export const setupButton = (button) => {
   } else if (compat.IS_SCENEVIEWER_CANDIDATE) {
     // system supports AR via scene viewer
     button.setAttribute("ar", "scene-viewer");
-    button.dispatchEvent(new CustomEvent("initialized", { detail: "scene-viewer" }));
+    button.dispatchEvent(
+      new CustomEvent("initialized", { detail: "scene-viewer" })
+    );
     button.addEventListener("click", () => {
       const src = button.getAttribute("src");
       if (!src) {
@@ -198,7 +204,9 @@ export const setupButton = (button) => {
   } else {
     // No AR supported on current system, hide the button or sets a fallback url
     button.setAttribute("ar", "unsupported");
-    button.dispatchEvent(new CustomEvent("initialized", { detail: "unsupported" }));
+    button.dispatchEvent(
+      new CustomEvent("initialized", { detail: "unsupported" })
+    );
     if (button.getAttribute("show-if-unsupported") != null) {
       button.addEventListener("click", () => {
         const fallbackUrl = button.getAttribute("fallback-url");
