@@ -76,7 +76,7 @@ const setupHref = (props) => {
   let href = "";
   if (compat.IS_AR_QUICKLOOK_CANDIDATE) {
     const {
-      iosSrc,
+      "ios-src": iosSrc,
       applePayButtonType,
       checkoutTitle,
       checkoutSubtitle,
