@@ -31,7 +31,7 @@ export const compat = {
   // @see https://forums.developer.apple.com/thread/119186
   // @see https://github.com/google/model-viewer/issues/758
   IS_IOS:
-    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !MSStream) ||
+    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
 
   IS_AR_QUICKLOOK_CANDIDATE: (() => {
@@ -74,9 +74,10 @@ export const activateAR = (props, listener) => {
 
 const setupHref = (props) => {
   let href = "";
+
   if (compat.IS_AR_QUICKLOOK_CANDIDATE) {
     const {
-      "ios-src": iosSrc,
+      iosSrc,
       applePayButtonType,
       checkoutTitle,
       checkoutSubtitle,
