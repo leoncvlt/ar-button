@@ -31,7 +31,7 @@ export const compat = {
   // @see https://forums.developer.apple.com/thread/119186
   // @see https://github.com/google/model-viewer/issues/758
   IS_IOS:
-    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !MSStream) ||
+    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
 
   IS_AR_QUICKLOOK_CANDIDATE: (() => {
@@ -52,14 +52,19 @@ export const compat = {
 export const activateAR = (props, listener) => {
   const anchor = document.createElement("a");
   const href = setupHref(props);
+  anchor.setAttribute("href", href);
+  anchor.style.display = 'none';
+
   if (compat.IS_AR_QUICKLOOK_CANDIDATE) {
     // quick look needs a <img> child to go directly to AR view
     anchor.appendChild(document.createElement("img"));
     anchor.rel = "ar";
   }
-  anchor.setAttribute("href", href);
-  anchor.click();
+
   if (listener && compat.IS_AR_QUICKLOOK_CANDIDATE) {
+    // anchor needs to be added to the body before you can add an event listener
+    document.body.append(anchor)
+
     anchor.addEventListener(
       "message",
       (event) => {
@@ -68,12 +73,15 @@ export const activateAR = (props, listener) => {
         }
       },
       false
-    );
-  }
+      );
+    }
+
+    anchor.click();
 };
 
 const setupHref = (props) => {
   let href = "";
+
   if (compat.IS_AR_QUICKLOOK_CANDIDATE) {
     const {
       iosSrc,
