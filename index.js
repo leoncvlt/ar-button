@@ -13,8 +13,6 @@ export const compat = {
     return check;
   })(),
 
-  IS_ANDROID: /android/i.test(navigator.userAgent),
-
   // Prior to iOS 13, detecting iOS Safari was relatively straight-forward.
   // As of iOS 13, Safari on iPad (in its default configuration) reports the same
   // user-agent string as Safari on desktop MacOS. Strictly speaking, we only care
@@ -26,13 +24,10 @@ export const compat = {
   // @see https://stackoverflow.com/questions/57765958/how-to-detect-ipad-and-ipad-os-version-in-ios-13-and-up
   // @see https://forums.developer.apple.com/thread/119186
   // @see https://github.com/google/model-viewer/issues/758
-  IS_IOS:
-    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ||
-    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
-
   IS_AR_QUICKLOOK_CANDIDATE: (() => {
-    if (IS_IOS) {
-      if (!IS_WKWEBVIEW) {
+    if ((/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) {
+      if (!Boolean(window.webkit && window.webkit.messageHandlers)) {
         const tempAnchor = document.createElement('a');
         return Boolean(
           tempAnchor.relList && tempAnchor.relList.supports &&
@@ -47,7 +42,7 @@ export const compat = {
   })(),
 
   IS_SCENEVIEWER_CANDIDATE:
-    IS_ANDROID &&
+    /android/i.test(navigator.userAgent) &&
     !/firefox/i.test(navigator.userAgent) &&
     !/OculusBrowser/.test(navigator.userAgent),
 };
